@@ -1,0 +1,35 @@
+services: 
+  nginx: # 1er servicio: nginx
+    image: nginx # imagen de docker hub que vamos a usar
+    container_name: nginx # nombre para referirse al servicio
+    ports:
+      - "80:80" # puerto de mi pc:puerto del servicio
+    volumes:
+      - ./src:/var/www/html # carpeta local/ vincula a carpeta de nginx
+      # - ./src:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf # archivo local / reflejado en archivo de la imagen
+    depends_on: # para correr este servicio debe estar corriendo php y mysql antes
+      - php
+      # - mysql
+    networks:
+      exercise_networki:
+        ipv4_address: 11.168.100.100  
+  php: # 3er servicio
+    build: # este se construira aqui mismo
+      context: . # ruta de referencia ./
+      dockerfile: Dockerfile # nombre del archivo de configuracion de la imagen 
+    container_name: php #
+    volumes: # carpeta de proyecto local : carpeta del container que da vida a los archivos PHP
+      - ./src:/var/www/html 
+    ports:
+      - "9000:80" # ya te la sabes
+    networks:
+      exercise_networki:
+        ipv4_address: 11.168.100.101
+
+networks:
+  exercise_networki:
+    ipam:
+      driver: default
+      config:
+        - subnet: "11.168.100.0/24"

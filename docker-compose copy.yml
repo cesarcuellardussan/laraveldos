@@ -1,0 +1,27 @@
+services:
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile_db
+    ports:
+      - "5432:5432"
+    networks:
+      exercise_network:
+        ipv4_address: 10.168.100.100
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile_app
+    ports:
+      - "80:80"
+    networks:
+      exercise_network:
+        ipv4_address: 10.168.100.101
+
+networks:
+  exercise_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.168.100.0/24"
+
