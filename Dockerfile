@@ -10,10 +10,16 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # da permisos para editar los archivos en esta ruta del container
 RUN chown -R www-data:www-data /var/www
+RUN chown -R www-data: /var/www/html
 RUN chmod 755 /var/www
+# docker-compose exec php chown -R www-data: /var/www/html
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY --from=spiralscout/roadrunner:2.4.2 /usr/bin/rr /usr/bin/
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
-RUN composer install
-RUN php artisan key:generate
+
+# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# COPY --from=spiralscout/roadrunner:2.4.2 /usr/bin/rr /usr/bin/
+
+# RUN composer install
+# RUN php artisan key:generate
