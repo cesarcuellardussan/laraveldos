@@ -45,8 +45,14 @@ COPY . /var/www/html
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www/html
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=spiralscout/roadrunner:2.4.2 /usr/bin/rr /usr/bin/rr
+
+RUN composer install --working-dir=/var/www/html/src
+
 # Change current user to www
 USER www
+
 
 # # Expose port 9000 and start php-fpm server
 # EXPOSE 9000
