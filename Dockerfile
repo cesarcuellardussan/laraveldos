@@ -1,7 +1,7 @@
 # imagen de dockerhub que descargara
 # FROM php:7.3-fpm-alpine
-# FROM php:7.4-fpm-alpine
-FROM php:7.4-fpm-buster
+FROM php:7.4-fpm-alpine
+# FROM php:7.4-fpm-buster
 
 # algunas configuraciones para que funcione el contenedor
 RUN docker-php-ext-install pdo pdo_mysql
@@ -34,10 +34,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # RUN php artisan key:generate
 
 # Add user for laravel application
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
+# RUN groupadd -g 1000 www
+# RUN useradd -u 1000 -ms /bin/bash -g www www
 
-# RUN adduser --disabled-password --gecos "" www
+RUN adduser --disabled-password --gecos "" www
 
 # Copy existing application directory contents
 COPY . /var/www/html
